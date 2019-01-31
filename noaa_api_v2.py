@@ -13,7 +13,8 @@ class NOAAData(object):
     def poll_api(self, req_type, payload):
         # Initiate http request - kwargs are constructed into a dict and passed as optional parameters
         # Ex (limit=100, sortorder='desc', startdate='1970-10-03', etc)
-        r = requests.get(self.url + req_type, headers=self.h, params=payload)
+        payload_str = "&".join("%s=%s" % (k,v) for k,v in payload.items())
+        r = requests.get(self.url + req_type, headers=self.h, params=payload_str)
 
         if r.status_code != 200:  # Handle erroneous requests
             print("Error: " + str(r.status_code))
